@@ -3,7 +3,7 @@ plugins {
 	id 'org.jetbrains.kotlin.plugin.spring' version '2.2.21'
 	id 'org.springframework.boot' version '4.0.5'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.jooq.jooq-codegen-gradle' version '${jooqVersion}'
+	id 'org.jooq.jooq-codegen-gradle' version '3.21.2'
 }
 
 group = 'com.example'
@@ -21,9 +21,11 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-jooq'
+	implementation 'org.springframework.boot:spring-boot-starter-json'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
-	implementation 'org.jooq:jooq'
+	implementation 'org.jooq:jooq:3.21.2'
 
 	runtimeOnly 'org.postgresql:postgresql'
 
