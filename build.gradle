@@ -3,6 +3,7 @@ plugins {
 	id 'org.jetbrains.kotlin.plugin.spring' version '2.2.21'
 	id 'org.springframework.boot' version '4.0.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.jooq.jooq-codegen-gradle' version '3.21.2'
 }
 
 group = 'com.example'
@@ -20,10 +21,45 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
+	implementation 'org.jooq:jooq'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	jooqCodegen 'org.postgresql:postgresql'
+}
+
+jooq {
+	configuration {
+		jdbc {
+			driver = 'org.postgresql.Driver'
+			url = 'jdbc:postgresql://localhost:5432/prewave'
+			user = 'postgres'
+			password = 'postgres'
+		}
+		generator {
+			name = 'org.jooq.codegen.KotlinGenerator'
+			database {
+				name = 'org.jooq.meta.postgres.PostgresDatabase'
+				inputSchema = 'public'
+			}
+			target {
+				packageName = 'com.example.demo.jooq'
+				directory = 'build/generated-src/jooq/main'
+			}
+			generate {
+				records = true
+				immutablePojos = false
+				fluentSetters = true
+			}
+		}
+	}
 }
 
 kotlin {
