@@ -3,7 +3,7 @@ plugins {
 	id 'org.jetbrains.kotlin.plugin.spring' version '2.2.21'
 	id 'org.springframework.boot' version '4.0.5'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.jooq.jooq-codegen-gradle' version '3.21.2'
+	id 'org.jooq.jooq-codegen-gradle' version '${jooqVersion}'
 }
 
 group = 'com.example'
@@ -33,6 +33,12 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	jooqCodegen 'org.postgresql:postgresql'
+}
+
+sourceSets {
+	main {
+		java.srcDir('build/generated-src/jooq/main')
+	}
 }
 
 jooq {
@@ -70,4 +76,8 @@ kotlin {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('compileKotlin') {
+	dependsOn tasks.named('jooqCodegen')
 }
