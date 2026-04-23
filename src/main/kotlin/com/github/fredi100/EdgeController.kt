@@ -1,4 +1,4 @@
-package com.example.demo
+package com.github.fredi100
 
 import com.example.demo.dto.EdgeDto
 import com.example.demo.dto.ErrorDto

@@ -1,11 +1,11 @@
-package com.example.demo
+package com.github.fredi100
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class DemoApplication
+class PrewaveInterview
 
 fun main(args: Array<String>) {
-	runApplication<DemoApplication>(*args)
+	runApplication<PrewaveInterview>(*args)
 }

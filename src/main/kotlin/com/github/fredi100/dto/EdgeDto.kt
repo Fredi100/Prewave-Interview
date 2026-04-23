@@ -1,4 +1,4 @@
-package com.example.demo.dto
+package com.github.fredi100.dto
 
 data class EdgeDto(
     val fromId: Int,

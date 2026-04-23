@@ -1,10 +1,10 @@
-package com.example.demo
+package com.github.fredi100
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class DemoApplicationTests {
+class PrewaveInterviewTests {
 
 	@Test
 	fun contextLoads() {
