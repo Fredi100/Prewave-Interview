@@ -63,10 +63,6 @@ class EdgeRepository(private val dsl: DSLContext) {
             .execute()
     }
 
-    fun getAllEdges(): Result<EdgeRecord?> {
-        return this.dsl.fetch(EDGE)
-    }
-
     // I tried doing it directly with dsl, but it was way more complicated than necessary.
     fun getTreeFromNode(nodeId: Int): Result<EdgeRecord> {
         val query = """
