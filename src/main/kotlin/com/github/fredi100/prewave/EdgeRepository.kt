@@ -1,7 +1,7 @@
-package com.github.fredi100
+package com.github.fredi100.prewave
 
-import com.example.demo.dto.EdgeDto
-import com.example.demo.jooq.tables.references.EDGE
+import com.github.fredi100.prewave.dto.EdgeDto
+import com.github.fredi100.prewave.jooq.tables.references.EDGE
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

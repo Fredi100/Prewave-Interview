@@ -1,4 +1,4 @@
-package com.github.fredi100
+package com.github.fredi100.prewave
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

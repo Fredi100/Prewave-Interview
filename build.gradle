@@ -6,7 +6,7 @@ plugins {
 	id 'org.jooq.jooq-codegen-gradle' version '3.21.2'
 }
 
-group = 'com.example'
+group = 'com.github.fredi100'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -58,7 +58,7 @@ jooq {
 				inputSchema = 'public'
 			}
 			target {
-				packageName = 'com.example.demo.jooq'
+				packageName = 'com.github.fredi100.prewave.jooq'
 				directory = 'build/generated-src/jooq/main'
 			}
 			generate {
