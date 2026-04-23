@@ -16,15 +16,15 @@ class EdgeRepository {
         this.create = dslContext;
     }
 
-    fun createEdge(edge: EdgeDto) {
-        this.create.insertInto(EDGE)
+    fun createEdge(edge: EdgeDto): Int {
+        return this.create.insertInto(EDGE)
             .set(EDGE.FROM_ID, edge.fromId)
             .set(EDGE.TO_ID, edge.toId)
             .execute()
     }
 
-    fun deleteEdge(edge: EdgeDto) {
-        this.create.deleteFrom(EDGE)
+    fun deleteEdge(edge: EdgeDto): Int {
+        return this.create.deleteFrom(EDGE)
             .where(EDGE.FROM_ID.eq(edge.fromId).and(EDGE.TO_ID.eq(edge.toId)))
             .execute()
     }
