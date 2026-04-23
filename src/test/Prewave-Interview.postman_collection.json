@@ -1,0 +1,97 @@
+{
+  "info": {
+    "_postman_id": "45a64f8b-0651-435e-907b-bcb0264f5200",
+    "name": "Prewave-Interview",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "11964770"
+  },
+  "item": [
+    {
+      "name": "Create Edge",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"fromId\": 4,\r\n    \"toId\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "/edge/create",
+          "path": [
+            "edge",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Edge",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"fromId\": 2,\r\n    \"toId\": 5\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "/edge/delete",
+          "path": [
+            "edge",
+            "delete"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Request Tree",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "/edge/1",
+          "path": [
+            "edge",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.request.url.host = \"localhost:8080\""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
