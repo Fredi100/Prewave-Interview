@@ -11,24 +11,31 @@ class TreeBuilder(private val edgeRepository: EdgeRepository) {
         val edges = edgeRepository.getTreeFromNode(nodeId)
             .groupBy({ it.fromId!! }, { it.toId!! })
 
-        if(edges.isEmpty()) {
+        if (edges.isEmpty()) {
             throw IllegalArgumentException("Node with id $nodeId does not exist")
         }
 
-        return buildNode(nodeId, edges, emptySet())
+        return buildNode(nodeId, edges, emptySet(), currentDepth = 0)
     }
 
-    private fun buildNode(currentNodeId: Int, adjacency: Map<Int, List<Int>>, path: Set<Int>): Node {
-        return if (currentNodeId in path) {
-            Node(currentNodeId)
-        }else{
-            val nextPath = path + currentNodeId
-            val children = adjacency[currentNodeId]
-                .orEmpty()
-                .distinct()
-                .map { childId -> buildNode(childId, adjacency.minus(currentNodeId), nextPath) }
-
-            Node(currentNodeId, children)
+    private fun buildNode(
+        currentNodeId: Int,
+        adjacency: Map<Int, List<Int>>,
+        path: Set<Int>,
+        currentDepth: Int
+    ): Node {
+        if (currentNodeId in path) {
+            return Node(currentNodeId, currentDepth)
         }
+
+        val nextPath = path + currentNodeId
+        val children = adjacency[currentNodeId]
+            .orEmpty()
+            .distinct()
+            .map { childId -> buildNode(childId, adjacency.minus(currentNodeId), nextPath, currentDepth + 1) }
+
+        val maxDepth = children.maxOfOrNull { it.depth } ?: currentDepth
+
+        return Node(currentNodeId, maxDepth, children)
     }
 }
