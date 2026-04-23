@@ -25,7 +25,7 @@ class TreeBuilder(private val edgeRepository: EdgeRepository) {
         currentDepth: Int
     ): Node {
         if (currentNodeId in path || currentDepth > 100) {
-            return Node(currentNodeId, currentDepth)
+            return Node(currentNodeId)
         }
 
         val nextPath = path + currentNodeId
@@ -34,8 +34,6 @@ class TreeBuilder(private val edgeRepository: EdgeRepository) {
             .distinct()
             .map { childId -> buildNode(childId, adjacency.minus(currentNodeId), nextPath, currentDepth + 1) }
 
-        val maxDepth = children.maxOfOrNull { it.depth } ?: currentDepth
-
-        return Node(currentNodeId, maxDepth, children)
+        return Node(currentNodeId, children)
     }
 }
