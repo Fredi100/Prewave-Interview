@@ -34,11 +34,76 @@ Schema SQL is loaded from `src/main/resources/db` via Docker init scripts.
 
 Spring datasource configuration is in `src/main/resources/application.properties`:
 
-## 4) Run tests
+## 4) Interact with the API
 
-```bash
-./gradlew test
+Use the included Postman collection `Prewave-Interview.postman_collection.json` to test the API endpoints.
+
+---
+### `POST /edge/create`
+Creates a new directed edge.
+
+Request body:
+```json
+{
+  "fromId": 1,
+  "toId": 2
+}
 ```
 
+* If successful will return `201 Created`
+* In case the edge already exists, will return `409 Conflict`
+* Adding an edge that would create a cycle will also return `409 Conflict`
+___
+### `POST /edge/delete`
+Deletes an existing directed edge.
 
+Request body:
+```json
+{
+  "fromId": 1,
+  "toId": 2
+}
+```
+
+* On successful deletion returns `204 No Content`
+* If the edge does not exist, will return `404 Not Found`
+___
+### `GET /edge/{nodeId}`
+Returns the tree starting from `nodeId`.
+Has a maximum depth of 100 levels as JSON serialization will fail for even deeper trees.
+
+
+On success will return a json similar to this:
+```json
+{
+  "id": 1,
+  "children": [
+    {
+      "id": 2,
+      "children": [
+        { 
+          "id": 4, 
+          "children": []
+        },
+        { 
+          "id": 5, 
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "children": [
+        { 
+          "id": 6, 
+          "children": []
+        }
+      ]
+    }
+  ]
+}
+```
+
+* Will return `404 Not Found` if the node with `nodeId` does not exist.
+___
 *Initialized with [spring initializr](https://start.spring.io/)*
