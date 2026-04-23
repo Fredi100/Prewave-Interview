@@ -5,6 +5,7 @@ import com.github.fredi100.prewave.data.ErrorDto
 import com.github.fredi100.prewave.data.Node
 import com.github.fredi100.prewave.db.EdgeRepository
 import com.github.fredi100.prewave.exception.RecursiveEdgeException
+import com.github.fredi100.prewave.exception.TargetNodeAlreadyExistsException
 import com.github.fredi100.prewave.service.TreeBuilder
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -28,6 +29,9 @@ class EdgeController(
         try {
             edgeRepository.createEdge(edge)
             return ResponseEntity.status(HttpStatus.CREATED).body(edge)
+        } catch (ex: TargetNodeAlreadyExistsException) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ErrorDto(ex.message ?: "Target node ${edge.toId} already has a parent"))
         } catch (_: DuplicateKeyException) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ErrorDto("Edge from ${edge.fromId} to ${edge.toId} already exists"))

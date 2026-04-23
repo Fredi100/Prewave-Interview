@@ -53,6 +53,7 @@ Request body:
 * If successful will return `201 Created`
 * In case the edge already exists, will return `409 Conflict`
 * Adding an edge that would create a cycle will also return `409 Conflict`
+* If `toId` is already a target node of another edge, will return `409 Conflict` as each node can only have one parent.
 ___
 ### `POST /edge/delete`
 Deletes an existing directed edge.
