@@ -1,15 +1,25 @@
 package com.example.demo
 
-import org.springframework.web.bind.annotation.GetMapping
+import com.example.demo.dto.EdgeDto
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/example")
-class ExampleController {
+class EdgeController {
 
-    @GetMapping
-    fun example(): String {
-        return "Hello, World!"
+    final val edgeRepository: EdgeRepository
+
+    constructor(edgeRepository: EdgeRepository) {
+        this.edgeRepository = edgeRepository
+    }
+
+    // TODO: Have to do some more validation and also better Exception handling
+    @PostMapping("/create")
+    fun createEdge(@RequestBody edge: EdgeDto): String {
+        edgeRepository.createEdge(edge)
+        return "Created Edge"
     }
 }
