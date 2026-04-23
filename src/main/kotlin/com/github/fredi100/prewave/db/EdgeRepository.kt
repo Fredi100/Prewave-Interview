@@ -1,6 +1,7 @@
 package com.github.fredi100.prewave.db
 
 import com.github.fredi100.prewave.data.EdgeDto
+import com.github.fredi100.prewave.exception.TargetNodeAlreadyExistsException
 import com.github.fredi100.prewave.exception.RecursiveEdgeException
 import com.github.fredi100.prewave.jooq.tables.records.EdgeRecord
 import com.github.fredi100.prewave.jooq.tables.references.EDGE
@@ -35,7 +36,17 @@ class EdgeRepository(private val dsl: DSLContext) {
         return result?.get(0, Boolean::class.java) ?: false
     }
 
+    fun targetNodeAlreadyExists(nodeId: Int): Boolean{
+        val count = this.dsl.fetchCount(EDGE.where(EDGE.TO_ID.eq(nodeId)))
+        return count > 0
+    }
+
     fun createEdge(edge: EdgeDto): Int {
+        // To prevent two branches from merging, we check that a node is not already the target of another edge
+        if(targetNodeAlreadyExists(edge.toId)){
+            throw TargetNodeAlreadyExistsException("${edge.toId} already exists as a target of another edge")
+        }
+
         if (isRecursive(edge.fromId, edge.toId)) {
             throw RecursiveEdgeException("Edge from ${edge.fromId} to ${edge.toId} would create a cycle within the tree")
         }
