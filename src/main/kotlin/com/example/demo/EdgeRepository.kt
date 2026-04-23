@@ -1,15 +1,13 @@
 package com.example.demo
 
 import com.example.demo.dto.EdgeDto
-import com.example.demo.jooq.tables.records.EdgeRecord
 import com.example.demo.jooq.tables.references.EDGE
 import org.jooq.DSLContext
-import org.jooq.Result
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class JooqExample {
+class EdgeRepository {
 
     final val create: DSLContext
 
@@ -18,16 +16,16 @@ class JooqExample {
         this.create = dslContext;
     }
 
-    fun createEdge() {
+    fun createEdge(edge: EdgeDto) {
         this.create.insertInto(EDGE)
-            .set(EDGE.FROM_ID, 1)
-            .set(EDGE.TO_ID, 2)
+            .set(EDGE.FROM_ID, edge.fromId)
+            .set(EDGE.TO_ID, edge.toId)
             .execute()
     }
 
-    fun deleteEdge() {
+    fun deleteEdge(edge: EdgeDto) {
         this.create.deleteFrom(EDGE)
-            .where(EDGE.FROM_ID.eq(1).and(EDGE.TO_ID.eq(2)))
+            .where(EDGE.FROM_ID.eq(edge.fromId).and(EDGE.TO_ID.eq(edge.toId)))
             .execute()
     }
 }
