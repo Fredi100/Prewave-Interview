@@ -24,7 +24,7 @@ class TreeBuilder(private val edgeRepository: EdgeRepository) {
         path: Set<Int>,
         currentDepth: Int
     ): Node {
-        if (currentNodeId in path) {
+        if (currentNodeId in path || currentDepth > 100) {
             return Node(currentNodeId, currentDepth)
         }
 
