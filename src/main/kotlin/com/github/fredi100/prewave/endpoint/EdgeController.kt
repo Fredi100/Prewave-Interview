@@ -61,6 +61,8 @@ class EdgeController(
         return try {
             val root: Node = treeBuilder.buildTree(nodeId)
             ResponseEntity.ok(root)
+        } catch (ex: IllegalArgumentException) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDto(ex.message ?: "Node does not exist"))
         } catch (ex: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorDto(ex.message ?: "An unexpected error occurred"))

@@ -11,6 +11,10 @@ class TreeBuilder(private val edgeRepository: EdgeRepository) {
         val edges = edgeRepository.getTreeFromNode(nodeId)
             .groupBy({ it.fromId!! }, { it.toId!! })
 
+        if(edges.isEmpty()) {
+            throw IllegalArgumentException("Node with id $nodeId does not exist")
+        }
+
         return buildNode(nodeId, edges, emptySet())
     }
 
