@@ -40,8 +40,18 @@ class EdgeController {
     }
 
     @PostMapping("/delete")
-    fun deleteEdge(@RequestBody edge: EdgeDto): String {
-        edgeRepository.deleteEdge(edge)
-        return "Deleted Edge"
+    fun deleteEdge(@RequestBody edge: EdgeDto): ResponseEntity<Any> {
+        try {
+            val result = edgeRepository.deleteEdge(edge)
+
+            if (result > 0)
+                return ResponseEntity.noContent().build()
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorDto("Edge from ${edge.fromId} to ${edge.toId} does not exist"))
+        } catch (ex: Exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorDto(ex.message ?: "An unexpected error occurred"))
+        }
     }
 }
