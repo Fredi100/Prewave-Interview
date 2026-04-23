@@ -54,4 +54,10 @@ class EdgeController {
                 .body(ErrorDto(ex.message ?: "An unexpected error occurred"))
         }
     }
+
+    @GetMapping("/{nodeId}")
+    fun getTreeFromNode(@PathVariable nodeId: Int): String {
+        return "Trying to fetch tree for $nodeId"
+        // TODO: Actually create a Tree here
+    }
 }
