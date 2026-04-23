@@ -22,4 +22,10 @@ class EdgeController {
         edgeRepository.createEdge(edge)
         return "Created Edge"
     }
+
+    @PostMapping("/delete")
+    fun deleteEdge(@RequestBody edge: EdgeDto): String {
+        edgeRepository.deleteEdge(edge)
+        return "Deleted Edge"
+    }
 }
