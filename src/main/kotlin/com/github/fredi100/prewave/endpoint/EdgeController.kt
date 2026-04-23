@@ -1,5 +1,6 @@
-package com.github.fredi100.prewave
+package com.github.fredi100.prewave.endpoint
 
+import com.github.fredi100.prewave.db.EdgeRepository
 import com.github.fredi100.prewave.data.EdgeDto
 import com.github.fredi100.prewave.data.ErrorDto
 import org.springframework.beans.factory.annotation.Autowired

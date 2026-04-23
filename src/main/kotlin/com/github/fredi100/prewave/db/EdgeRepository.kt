@@ -1,4 +1,4 @@
-package com.github.fredi100.prewave
+package com.github.fredi100.prewave.db
 
 import com.github.fredi100.prewave.data.EdgeDto
 import com.github.fredi100.prewave.jooq.tables.references.EDGE
