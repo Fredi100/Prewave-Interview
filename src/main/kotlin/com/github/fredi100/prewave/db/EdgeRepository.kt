@@ -8,14 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
 @Repository
-class EdgeRepository {
-
-    final val create: DSLContext
-
-    @Autowired
-    constructor(dslContext: DSLContext) {
-        this.create = dslContext;
-    }
+class EdgeRepository(private val dsl: DSLContext) {
 
     fun isRecursive(fromId: Int, toId: Int): Boolean {
         // Direct self-loop
@@ -35,7 +28,7 @@ class EdgeRepository {
             WHERE to_id = ?
         """.trimIndent()
 
-        val result = this.create.fetchOne(query, toId, fromId, fromId)
+        val result = this.dsl.fetchOne(query, toId, fromId, fromId)
         return result?.get(0, Boolean::class.java) ?: false
     }
 
@@ -44,14 +37,14 @@ class EdgeRepository {
             throw RecursiveEdgeException("Edge from ${edge.fromId} to ${edge.toId} would create a cycle within the tree")
         }
 
-        return this.create.insertInto(EDGE)
+        return this.dsl.insertInto(EDGE)
             .set(EDGE.FROM_ID, edge.fromId)
             .set(EDGE.TO_ID, edge.toId)
             .execute()
     }
 
     fun deleteEdge(edge: EdgeDto): Int {
-        return this.create.deleteFrom(EDGE)
+        return this.dsl.deleteFrom(EDGE)
             .where(EDGE.FROM_ID.eq(edge.fromId).and(EDGE.TO_ID.eq(edge.toId)))
             .execute()
     }
