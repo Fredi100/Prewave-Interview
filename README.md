@@ -26,4 +26,19 @@ docker compose up -d
 
 Schema SQL is loaded from `src/main/resources/db` via Docker init scripts.
 
+## 3) Run the application
+
+```bash
+./gradlew bootRun
+```
+
+Spring datasource configuration is in `src/main/resources/application.properties`:
+
+## 4) Run tests
+
+```bash
+./gradlew test
+```
+
+
 *Initialized with [spring initializr](https://start.spring.io/)*
