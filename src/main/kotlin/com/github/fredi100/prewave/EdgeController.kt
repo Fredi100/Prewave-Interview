@@ -1,7 +1,7 @@
 package com.github.fredi100.prewave
 
-import com.github.fredi100.prewave.dto.EdgeDto
-import com.github.fredi100.prewave.dto.ErrorDto
+import com.github.fredi100.prewave.data.EdgeDto
+import com.github.fredi100.prewave.data.ErrorDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus

@@ -1,6 +1,6 @@
 package com.github.fredi100.prewave
 
-import com.github.fredi100.prewave.dto.EdgeDto
+import com.github.fredi100.prewave.data.EdgeDto
 import com.github.fredi100.prewave.jooq.tables.references.EDGE
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
