@@ -2,9 +2,10 @@ package com.github.fredi100.prewave.db
 
 import com.github.fredi100.prewave.data.EdgeDto
 import com.github.fredi100.prewave.exception.RecursiveEdgeException
+import com.github.fredi100.prewave.jooq.tables.records.EdgeRecord
 import com.github.fredi100.prewave.jooq.tables.references.EDGE
 import org.jooq.DSLContext
-import org.springframework.beans.factory.annotation.Autowired
+import org.jooq.Result
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -49,5 +50,21 @@ class EdgeRepository(private val dsl: DSLContext) {
         return this.dsl.deleteFrom(EDGE)
             .where(EDGE.FROM_ID.eq(edge.fromId).and(EDGE.TO_ID.eq(edge.toId)))
             .execute()
+    }
+
+    // I tried doing it directly with dsl, but it was way more complicated than necessary.
+    fun getTreeFromNode(nodeId: Int): Result<EdgeRecord> {
+        val query = """
+            WITH RECURSIVE tree AS (
+                SELECT from_id, to_id FROM edge WHERE from_id = ?
+                UNION ALL
+                SELECT e.from_id, e.to_id 
+                FROM edge e
+                JOIN tree t ON e.from_id = t.to_id
+            )
+            SELECT from_id, to_id FROM tree
+        """.trimIndent()
+
+        return this.dsl.fetch(query, nodeId).into(EDGE)
     }
 }
