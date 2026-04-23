@@ -12,7 +12,7 @@ Spring Boot + Kotlin project with PostgreSQL and jOOQ.
 Either clone the repository using Git, or download the ZIP file and extract it.
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Fredi100/Prewave-Interview.git
 cd Prewave-Interview
 ```
 
