@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository
 @Repository
 class EdgeRepository(private val dsl: DSLContext) {
 
+    // https://stackoverflow.com/questions/75954320/recursive-tree-query-in-postgresql
+    // https://www.geeksforgeeks.org/postgresql/postgresql-recursive-query-using-ctes/
     fun isRecursive(fromId: Int, toId: Int): Boolean {
         // Direct self-loop
         if (fromId == toId) return true
