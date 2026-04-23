@@ -1,8 +1,9 @@
 package com.github.fredi100.prewave.endpoint
 
-import com.github.fredi100.prewave.db.EdgeRepository
 import com.github.fredi100.prewave.data.EdgeDto
 import com.github.fredi100.prewave.data.ErrorDto
+import com.github.fredi100.prewave.db.EdgeRepository
+import com.github.fredi100.prewave.exception.RecursiveEdgeException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -25,7 +26,6 @@ class EdgeController {
         this.edgeRepository = edgeRepository
     }
 
-    // TODO: Have to do some more validation and also better Exception handling
     @PostMapping("/create")
     fun createEdge(@RequestBody edge: EdgeDto): ResponseEntity<Any> {
         try {
@@ -34,6 +34,9 @@ class EdgeController {
         } catch (_: DuplicateKeyException) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ErrorDto("Edge from ${edge.fromId} to ${edge.toId} already exists"))
+        } catch (ex: RecursiveEdgeException) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ErrorDto(ex.message ?: "Edge would create a cycle"))
         } catch (ex: Exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorDto(ex.message ?: "An unexpected error occurred"))
