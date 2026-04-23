@@ -2,9 +2,10 @@ package com.github.fredi100.prewave.endpoint
 
 import com.github.fredi100.prewave.data.EdgeDto
 import com.github.fredi100.prewave.data.ErrorDto
+import com.github.fredi100.prewave.data.Node
 import com.github.fredi100.prewave.db.EdgeRepository
 import com.github.fredi100.prewave.exception.RecursiveEdgeException
-import org.springframework.beans.factory.annotation.Autowired
+import com.github.fredi100.prewave.service.TreeBuilder
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,14 +18,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/edge")
-class EdgeController {
-
-    final val edgeRepository: EdgeRepository
-
-    @Autowired
-    constructor(edgeRepository: EdgeRepository) {
-        this.edgeRepository = edgeRepository
-    }
+class EdgeController(
+    private val edgeRepository: EdgeRepository,
+    private val treeBuilder: TreeBuilder
+) {
 
     @PostMapping("/create")
     fun createEdge(@RequestBody edge: EdgeDto): ResponseEntity<Any> {
@@ -60,8 +57,13 @@ class EdgeController {
     }
 
     @GetMapping("/{nodeId}")
-    fun getTreeFromNode(@PathVariable nodeId: Int): String {
-        return "Trying to fetch tree for $nodeId"
-        // TODO: Actually create a Tree here
+    fun getTreeFromNode(@PathVariable nodeId: Int): ResponseEntity<Any> {
+        return try {
+            val root: Node = treeBuilder.buildTree(nodeId)
+            ResponseEntity.ok(root)
+        } catch (ex: Exception) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorDto(ex.message ?: "An unexpected error occurred"))
+        }
     }
 }
